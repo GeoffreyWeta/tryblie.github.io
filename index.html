@@ -1,1 +1,959 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tryblie, The Operating System for Human Communities</title>
+  <meta name="description" content="Tryblie is the operating system for human communities, helping creators, founders, local groups, and modern communities organize, share, govern, and grow in one warm, structured digital space." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f8fb;
+      --surface: #ffffff;
+      --surface-soft: #fff7f4;
+      --surface-warm: #fff1ec;
+      --text: #121826;
+      --muted: #667085;
+      --line: #e8e8ef;
+      --accent: #ff6b4a;
+      --accent-dark: #e85b3a;
+      --accent-soft: #fff0eb;
+      --accent-glow: rgba(255, 107, 74, 0.18);
+      --shadow-sm: 0 10px 24px rgba(18, 24, 38, 0.06);
+      --shadow-md: 0 18px 40px rgba(18, 24, 38, 0.08);
+      --shadow-lg: 0 30px 80px rgba(18, 24, 38, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 107, 74, 0.08), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255, 107, 74, 0.06), transparent 26%),
+        var(--bg);
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(100% - 2rem, var(--max));
+      margin: 0 auto;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.68rem 0.98rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(255, 107, 74, 0.14);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 0.52rem;
+      height: 0.52rem;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(255, 107, 74, 0.12);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1rem 1.3rem;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 16px 34px rgba(255, 107, 74, 0.22);
+    }
+
+    .btn-primary:hover { background: var(--accent-dark); }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--line);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(248, 248, 251, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(18, 24, 38, 0.06);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.82rem;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      width: 2.55rem;
+      height: 2.55rem;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: var(--text);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero {
+      padding: 4.8rem 0 3.2rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      margin: 1rem 0 1rem;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      max-width: 10.8ch;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .accent-text { color: var(--accent); }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin: 1.7rem 0 1.3rem;
+    }
+
+    .hero-support {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-support span::before {
+      content: "✦";
+      color: var(--accent);
+      margin-right: 0.45rem;
+    }
+
+    .hero-panel {
+      position: relative;
+      padding: 1rem;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, #fff6f2 0%, #ffffff 55%, #fff9f6 100%);
+      border: 1px solid rgba(255, 107, 74, 0.12);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      right: -120px;
+      top: -120px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 107, 74, 0.15), transparent 70%);
+    }
+
+    .countdown-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 1rem 1.05rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1rem;
+    }
+
+    .countdown-copy small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .countdown-copy strong {
+      display: block;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 74px);
+      gap: 0.55rem;
+    }
+
+    .countdown-box {
+      background: var(--text);
+      color: white;
+      border-radius: 18px;
+      padding: 0.82rem 0.42rem;
+      text-align: center;
+    }
+
+    .countdown-box strong {
+      display: block;
+      font-size: 1.48rem;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .countdown-box span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.76;
+    }
+
+    .app-shell {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .app-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 0.42rem;
+    }
+
+    .window-dots i {
+      display: block;
+      width: 0.68rem;
+      height: 0.68rem;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .app-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .mini-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 1rem;
+    }
+
+    .mini-label {
+      color: #98a2b3;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.45rem;
+    }
+
+    .mini-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.45rem;
+    }
+
+    .mini-text {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .mini-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.8rem;
+    }
+
+    .badge {
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .section { padding: 4.8rem 0; }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 2rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.02rem;
+    }
+
+    .grid-2, .grid-3, .grid-4, .grid-5 {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 1.3rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card h3 {
+      margin: 0 0 0.65rem;
+      font-size: 1.14rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .feature-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 1rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 0.78rem;
+      margin-top: 1rem;
+    }
+
+    .check-item {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .check {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 999px;
+      flex: 0 0 auto;
+      margin-top: 0.1rem;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .timeline-item strong {
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .audience-card {
+      background: linear-gradient(180deg, #fff 0%, #fffaf8 100%);
+    }
+
+    .faq {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1rem 1.1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-item h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1rem;
+    }
+
+    .faq-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .cta-panel {
+      padding: 2.3rem;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 107, 74, 0.16);
+      background: linear-gradient(135deg, #fff4ef 0%, #fff 55%, #fff8f4 100%);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    .cta-panel h2 {
+      margin: 0 0 0.8rem;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+    }
+
+    .cta-panel p {
+      max-width: 700px;
+      margin: 0 auto 1.4rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .email-form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .email-form input {
+      flex: 1 1 340px;
+      min-width: 280px;
+      padding: 1rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      font: inherit;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .subtext {
+      margin-top: 0.9rem;
+      color: #98a2b3;
+      font-size: 0.92rem;
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 1.25rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid, .grid-4, .grid-5 { grid-template-columns: 1fr 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .grid-5, .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links { display: none; }
+      .countdown-wrap { flex-direction: column; align-items: flex-start; }
+      .countdown-grid { grid-template-columns: repeat(4, minmax(58px, 1fr)); width: 100%; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 1rem, var(--max)); }
+      .hero { padding-top: 3.4rem; }
+      .hero-copy h1 { max-width: 100%; }
+      .nav-actions .btn-secondary { display: none; }
+      .email-form input { min-width: 0; width: 100%; }
+      .cta-panel, .card, .faq-item, .hero-panel { padding-left: 1rem; padding-right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="Tryblie home">
+        <span class="brand-mark">T</span>
+        <span>tryblie</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#audience">Who it’s for</a>
+        <a href="#launch">Launch</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#features" class="btn btn-secondary">Explore platform</a>
+        <a href="#waitlist" class="btn btn-primary">Join waitlist</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="about">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="pill"><span class="dot"></span> the operating system for human communities</span>
+          <h1>Where communities <span class="accent-text">organize, share, govern, and grow</span>.</h1>
+          <p>
+            Tryblie gives communities one warm, structured digital home. Instead of forcing people to stitch together feeds, files, calendars, and decision-making tools across different apps, Tryblie brings it all together so creators, founders, local groups, and modern communities can actually operate.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#waitlist" class="btn btn-primary">Join waitlist</a>
+            <a href="#features" class="btn btn-secondary">See what it can do</a>
+          </div>
+
+          <div class="hero-support">
+            <span>built for real communities, not empty scrolling</span>
+            <span>structured posts, events, resources, and governance</span>
+            <span>warmer than enterprise tools, stronger than social feeds</span>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="countdown-wrap" aria-label="2 day product launch countdown">
+            <div class="countdown-copy">
+              <small>product launch</small>
+              <strong>Tryblie launches in 2 days</strong>
+            </div>
+            <div class="countdown-grid">
+              <div class="countdown-box"><strong id="days">02</strong><span>days</span></div>
+              <div class="countdown-box"><strong id="hours">00</strong><span>hours</span></div>
+              <div class="countdown-box"><strong id="minutes">00</strong><span>mins</span></div>
+              <div class="countdown-box"><strong id="seconds">00</strong><span>secs</span></div>
+            </div>
+          </div>
+
+          <div class="app-shell">
+            <div class="app-topbar">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <span>community workspace</span>
+            </div>
+
+            <div class="app-grid">
+              <div class="mini-card">
+                <div class="mini-label">structured communities</div>
+                <div class="mini-title">Clear spaces, categories, and rules</div>
+                <div class="mini-text">Every community gets a focused environment where members know how to participate, contribute, and find what matters without chaos.</div>
+                <div class="mini-badges">
+                  <span class="badge">roles</span>
+                  <span class="badge">categories</span>
+                  <span class="badge">community rules</span>
+                </div>
+              </div>
+
+              <div class="mini-card">
+                <div class="mini-label">shared knowledge</div>
+                <div class="mini-title">Posts, resources, and updates that stay useful</div>
+                <div class="mini-text">Publish announcements, share guides, link resources, and keep community knowledge discoverable instead of buried in endless chat threads.</div>
+                <div class="mini-badges">
+                  <span class="badge">posts</span>
+                  <span class="badge">files</span>
+                  <span class="badge">guides</span>
+                </div>
+              </div>
+
+              <div class="mini-card">
+                <div class="mini-label">coordination and governance</div>
+                <div class="mini-title">Events, approvals, notifications, and decision-making</div>
+                <div class="mini-text">Run communities with operational clarity, from event reminders and transactional emails to moderation, approvals, and collective governance.</div>
+                <div class="mini-badges">
+                  <span class="badge">events</span>
+                  <span class="badge">notifications</span>
+                  <span class="badge">governance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid-5">
+          <div class="card stat-card"><strong>Structured posts</strong><p>Share updates, announcements, and knowledge in the right place.</p></div>
+          <div class="card stat-card"><strong>Events</strong><p>Create, manage, and notify members about what’s happening.</p></div>
+          <div class="card stat-card"><strong>Resources</strong><p>Give every community a living library of files, links, and guides.</p></div>
+          <div class="card stat-card"><strong>Governance</strong><p>Support rules, moderation, voting, and approvals with clarity.</p></div>
+          <div class="card stat-card"><strong>Notifications</strong><p>Keep everyone aligned through email and platform updates.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">core features</span>
+          <h2>Everything a living community needs in one platform.</h2>
+          <p>
+            Tryblie is not built around passive engagement, it is built around active community operations. That means communication, coordination, resources, and governance all work together.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="feature-icon">01</div>
+            <h3>Structured communities</h3>
+            <p>Communities have clear organization, categories, expectations, and focused participation spaces so members can join and contribute with purpose.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">02</div>
+            <h3>Posts and content</h3>
+            <p>Share knowledge, updates, and announcements through structured posts that can be tagged, categorized, and linked to the rest of the community system.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">03</div>
+            <h3>Events</h3>
+            <p>Create and manage events, keep members informed, and support calendar-aware community activity without sending people elsewhere.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">04</div>
+            <h3>Resources</h3>
+            <p>Upload and share files, guides, documents, and links in a centralized repository for each community, so useful information stays accessible.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">05</div>
+            <h3>Governance</h3>
+            <p>Support real decision-making through moderation tools, approvals, rules, and governance workflows that help communities build trust.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">06</div>
+            <h3>Notifications and email</h3>
+            <p>Send transactional notifications for new posts, replies, updates, and reminders, with a path toward production-grade delivery using AWS SES.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Why Tryblie feels different</h3>
+            <div class="check-list">
+              <div class="check-item"><span class="check">✓</span><span><strong style="color: var(--text);">More human than enterprise software</strong>, because communities need warmth as much as structure.</span></div>
+              <div class="check-item"><span class="check">✓</span><span><strong style="color: var(--text);">More organized than social platforms</strong>, because real groups need systems, not noise.</span></div>
+              <div class="check-item"><span class="check">✓</span><span><strong style="color: var(--text);">More complete than fragmented tools</strong>, because posts, events, resources, and governance belong together.</span></div>
+              <div class="check-item"><span class="check">✓</span><span><strong style="color: var(--text);">Built for continuity</strong>, so communities can grow without losing clarity or memory.</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>What communities can do on day one</h3>
+            <div class="check-list">
+              <div class="check-item"><span class="check">✓</span><span>Create community spaces with structure, roles, and participation boundaries.</span></div>
+              <div class="check-item"><span class="check">✓</span><span>Publish updates, announcements, and useful knowledge through organized posts.</span></div>
+              <div class="check-item"><span class="check">✓</span><span>Run events and keep members synced through reminders and notifications.</span></div>
+              <div class="check-item"><span class="check">✓</span><span>Share community documents, guides, files, and important links in one place.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="audience">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">who it’s for</span>
+          <h2>Built for communities of all kinds, especially the ones trying to do something real.</h2>
+          <p>
+            Tryblie is flexible enough for modern online communities and grounded enough for local and mission-driven groups that need consistency, clarity, and participation.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="card audience-card">
+            <h3>Creators and community builders</h3>
+            <p>Run memberships, updates, exclusive resources, and events without juggling multiple disconnected tools.</p>
+          </article>
+          <article class="card audience-card">
+            <h3>Founders and startup circles</h3>
+            <p>Share knowledge, coordinate conversations, manage resources, and create focused spaces for collaboration and decision-making.</p>
+          </article>
+          <article class="card audience-card">
+            <h3>Local communities and city groups</h3>
+            <p>Organize meetups, local updates, guides, approvals, and community operations with a home that feels clear and trustworthy.</p>
+          </article>
+          <article class="card audience-card">
+            <h3>General purpose communities</h3>
+            <p>From interest groups to mission-led networks, build structure without losing the warmth and identity that makes a community feel alive.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="launch">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">launch path</span>
+          <h2>Launching with the essentials communities need most.</h2>
+          <p>
+            The first version of Tryblie is centered on structure, coordination, and trust, with a roadmap that strengthens communication and community operations over time.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>Launch</strong>
+            <p>Structured communities, categorized posts, resources, events, governance foundations, and notifications designed around real community workflows.</p>
+          </div>
+          <div class="timeline-item">
+            <strong>Next layer</strong>
+            <p>Stronger transactional notifications for replies, updates, reminders, and member activity that keep communities informed without overwhelming them.</p>
+          </div>
+          <div class="timeline-item">
+            <strong>Scale</strong>
+            <p>Production-grade email delivery through AWS SES and deeper operational tooling for communities that need reliability as they grow.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">faq</span>
+          <h2>What people will want to know before joining.</h2>
+        </div>
+
+        <div class="faq">
+          <article class="faq-item">
+            <h3>What is Tryblie?</h3>
+            <p>Tryblie is an operating system for human communities, a platform built to help people organize, share, govern, and grow together digitally.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Is this just another social network?</h3>
+            <p>No. Social interaction is part of the experience, but the core of Tryblie is structured community operations, including posts, events, resources, governance, and notifications.</p>
+          </article>
+          <article class="faq-item">
+            <h3>How do people use it?</h3>
+            <p>Communities use Tryblie to create organized spaces, publish updates, manage events, share resources, communicate clearly, and make decisions together.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Why a waitlist?</h3>
+            <p>Because the launch is being rolled out intentionally. The waitlist helps bring in early communities that want to shape the product and build with it from the start.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="waitlist">
+      <div class="container">
+        <div class="cta-panel">
+          <span class="pill">join the launch list</span>
+          <h2>Bring your community onto Tryblie.</h2>
+          <p>
+            Join the waitlist to get launch updates, early access, and a front-row seat as Tryblie becomes the operating system for human communities.
+          </p>
+
+          <form class="email-form">
+            <input type="email" placeholder="Enter your email" aria-label="Email address" />
+            <button type="submit" class="btn btn-primary">Join waitlist</button>
+          </form>
+
+          <div class="subtext">No pricing section, no noise, just early access to the platform.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div class="brand">
+        <span class="brand-mark">T</span>
+        <span>tryblie</span>
+      </div>
+
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#audience">Audience</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <div>© 2026 Tryblie. The operating system for human communities.</div>
+    </div>
+  </footer>
+
+  <script>
+    const launchDate = Date.now() + 2 * 24 * 60 * 60 * 1000;
+
+    function pad(value) {
+      return String(value).padStart(2, '0');
+    }
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = Math.max(0, launchDate - now);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('days').textContent = pad(days);
+      document.getElementById('hours').textContent = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
