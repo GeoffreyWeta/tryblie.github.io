@@ -1,1 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tryblie, Build Your Circle</title>
+  <meta name="description" content="Tryblie helps people find their people, create real connection, and build communities that actually feel alive." />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-soft: #11111a;
+      --card: rgba(255, 255, 255, 0.06);
+      --card-strong: rgba(255, 255, 255, 0.1);
+      --text: #f7f7fb;
+      --muted: #b8b8c9;
+      --line: rgba(255,255,255,0.12);
+      --accent: #8b5cf6;
+      --accent-2: #22d3ee;
+      --accent-3: #f472b6;
+      --success: #86efac;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(139,92,246,0.22), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(34,211,238,0.15), transparent 24%),
+        radial-gradient(circle at 50% 80%, rgba(244,114,182,0.12), transparent 26%),
+        linear-gradient(180deg, #0b0b12 0%, #090910 100%);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(100% - 2rem, var(--max));
+      margin: 0 auto;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 12px rgba(139,92,246,0.8);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.95rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      box-shadow: 0 12px 28px rgba(139,92,246,0.28);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border-color: var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(10,10,15,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 1.1rem;
+    }
+
+    .brand-mark {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      box-shadow: 0 10px 25px rgba(139,92,246,0.35);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .hero {
+      padding: 5rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      margin: 1rem 0;
+      font-size: clamp(2.8rem, 6vw, 5.7rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      max-width: 11ch;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, #d8c7ff 35%, #9bf1ff 70%, #ffc0e6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 58ch;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin: 1.7rem 0 1.2rem;
+    }
+
+    .proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.4rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 1.3rem;
+    }
+
+    .proof span::before {
+      content: "✦";
+      color: var(--success);
+      margin-right: 0.45rem;
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% 70% auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(139,92,246,0.35), transparent 70%);
+      filter: blur(10px);
+    }
+
+    .app-shell {
+      position: relative;
+      padding: 1rem;
+      border-radius: 24px;
+      background: #0d0f18;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .app-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .window-dots i {
+      display: block;
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .app-grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .mini-card {
+      padding: 1rem;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .mini-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .mini-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.8rem;
+    }
+
+    .mini-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.75rem;
+    }
+
+    .badge {
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      color: #e9e9f7;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-stack span {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      margin-left: -0.35rem;
+      border: 2px solid #0d0f18;
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(34,211,238,0.85));
+    }
+
+    .section {
+      padding: 4.5rem 0;
+    }
+
+    .section-heading {
+      display: grid;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      max-width: 700px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .feature-card, .quote-card, .pricing-card, .faq-item, .cta-panel {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card {
+      padding: 1.3rem;
+    }
+
+    .feature-icon {
+      width: 2.8rem;
+      height: 2.8rem;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, rgba(139,92,246,0.22), rgba(34,211,238,0.2));
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 0.65rem;
+      font-size: 1.1rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .showcase-panel {
+      padding: 1.5rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      min-height: 320px;
+    }
+
+    .showcase-panel h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .list-item {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .list-item b { color: var(--text); }
+
+    .check {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(134,239,172,0.12);
+      color: var(--success);
+      flex: 0 0 auto;
+      margin-top: 0.1rem;
+    }
+
+    .quotes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .quote-card {
+      padding: 1.3rem;
+    }
+
+    .quote-card p {
+      color: #ececf6;
+      line-height: 1.75;
+      margin: 0 0 1rem;
+    }
+
+    .quote-meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .pricing-card {
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(139,92,246,0.45);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.featured::before {
+      content: "Popular";
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.78rem;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      padding: 0.4rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .price {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin: 0.2rem 0 1rem;
+    }
+
+    .price small {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 1.35rem;
+      display: grid;
+      gap: 0.7rem;
+      color: var(--muted);
+    }
+
+    .pricing-card li::before {
+      content: "✓";
+      color: var(--success);
+      margin-right: 0.55rem;
+    }
+
+    .faq {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .faq-item {
+      padding: 1rem 1.15rem;
+    }
+
+    .faq-item h3 {
+      margin: 0 0 0.55rem;
+      font-size: 1rem;
+    }
+
+    .faq-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .cta-panel {
+      padding: 2rem;
+      text-align: center;
+      background:
+        radial-gradient(circle at top, rgba(139,92,246,0.2), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(34,211,238,0.15), transparent 35%),
+        rgba(255,255,255,0.05);
+    }
+
+    .cta-panel h2 {
+      margin: 0 0 0.8rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.05em;
+    }
+
+    .cta-panel p {
+      max-width: 650px;
+      margin: 0 auto 1.4rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.25rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .showcase,
+      .features,
+      .quotes,
+      .pricing {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 3.5rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 1.1rem, var(--max));
+      }
+
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+
+      .hero-copy h1 {
+        max-width: 100%;
+      }
+
+      .cta-panel,
+      .feature-card,
+      .pricing-card,
+      .quote-card,
+      .faq-item,
+      .showcase-panel {
+        padding: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="Tryblie home">
+        <span class="brand-mark">T</span>
+        <span>tryblie</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#community">Community</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="#community">See the vibe</a>
+        <a class="btn btn-primary" href="#cta">Join waitlist</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="pill"><span class="dot"></span> your people are closer than you think</span>
+          <h1><span class="gradient-text">Find your circle, build your world.</span></h1>
+          <p>
+            Tryblie is where friendship, community, and culture click into place. Discover people with your energy, create micro-communities with real momentum, and turn online connection into something that actually feels human.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#cta">Get early access</a>
+            <a class="btn btn-secondary" href="#features">Explore features</a>
+          </div>
+
+          <div class="proof">
+            <span>real connection over empty scrolling</span>
+            <span>built for vibe-based discovery</span>
+            <span>designed for creators and communities</span>
+          </div>
+        </div>
+
+        <div class="hero-card" aria-label="Tryblie app preview">
+          <div class="app-shell">
+            <div class="app-topbar">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <span>discover • connect • gather</span>
+            </div>
+
+            <div class="app-grid">
+              <div class="mini-card">
+                <div class="mini-label">Tonight’s picks</div>
+                <div class="mini-title">Creative circle, rooftop energy, good people only</div>
+                <div class="mini-badges">
+                  <span class="badge">music heads</span>
+                  <span class="badge">founders</span>
+                  <span class="badge">late-night thinkers</span>
+                </div>
+                <div class="mini-row">
+                  <div class="avatar-stack">
+                    <span>A</span><span>K</span><span>J</span><span>+9</span>
+                  </div>
+                  <span class="badge">94% vibe match</span>
+                </div>
+              </div>
+
+              <div class="mini-card">
+                <div class="mini-label">Your tribe signal</div>
+                <div class="mini-title">People are joining around art, tech, wellness, and bold ideas</div>
+                <div class="mini-row">
+                  <span class="badge">live in atlanta</span>
+                  <span class="badge">23 nearby</span>
+                </div>
+              </div>
+
+              <div class="mini-card">
+                <div class="mini-label">Momentum</div>
+                <div class="mini-title">Start a room, host a meetup, or spark a circle in minutes</div>
+                <div class="mini-badges">
+                  <span class="badge">audio rooms</span>
+                  <span class="badge">private groups</span>
+                  <span class="badge">event drops</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">built for connection with taste</span>
+          <h2>Not another social app, a better social feeling.</h2>
+          <p>
+            Every part of Tryblie is designed to help people move from passive browsing to active belonging. Cleaner discovery, sharper identity, stronger community tools.
+          </p>
+        </div>
+
+        <div class="features">
+          <article class="feature-card">
+            <div class="feature-icon">✦</div>
+            <h3>Vibe-based discovery</h3>
+            <p>Go beyond generic profiles. Match through energy, interests, intent, and the spaces people actually want to create together.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">◎</div>
+            <h3>Micro-communities that move</h3>
+            <p>Start circles around culture, wellness, nightlife, creativity, business, or your own niche, then give them room to grow naturally.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">↗</div>
+            <h3>From online to real life</h3>
+            <p>Host moments, not just messages. Create events, quick meetups, invite-only rooms, and experiences that make the app feel alive.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="community">
+      <div class="container">
+        <div class="showcase">
+          <div class="showcase-panel">
+            <span class="pill">the tryblie vibe</span>
+            <h3>Curated, magnetic, social-first.</h3>
+            <div class="list">
+              <div class="list-item"><span class="check">✓</span><span><b>Intentional spaces</b>, less noise, more chemistry.</span></div>
+              <div class="list-item"><span class="check">✓</span><span><b>Designed for identity</b>, so people show up as more than a bio and a selfie.</span></div>
+              <div class="list-item"><span class="check">✓</span><span><b>Culture-forward community tools</b>, built for tastemakers, connectors, and people who naturally bring others together.</span></div>
+            </div>
+          </div>
+
+          <div class="showcase-panel">
+            <span class="pill">what happens here</span>
+            <h3>Build circles around what matters now.</h3>
+            <div class="mini-badges" style="margin-top: 1rem;">
+              <span class="badge">city meetups</span>
+              <span class="badge">creative collabs</span>
+              <span class="badge">founder circles</span>
+              <span class="badge">music nights</span>
+              <span class="badge">wellness rooms</span>
+              <span class="badge">private events</span>
+              <span class="badge">dating energy</span>
+              <span class="badge">friendship first</span>
+            </div>
+            <p style="color: var(--muted); line-height: 1.75; margin-top: 1rem;">
+              Tryblie gives people the structure to discover each other, and the freedom to create a social atmosphere that feels premium, personal, and alive.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">why people stay</span>
+          <h2>Connection that feels less random, more real.</h2>
+        </div>
+
+        <div class="quotes">
+          <article class="quote-card">
+            <p>“It feels like someone finally designed social discovery for people with taste, energy, and actual lives.”</p>
+            <div class="quote-meta">Maya, community builder</div>
+          </article>
+          <article class="quote-card">
+            <p>“I found collaborators, event invites, and new friends without the weirdness and friction of most platforms.”</p>
+            <div class="quote-meta">Jordan, creative founder</div>
+          </article>
+          <article class="quote-card">
+            <p>“Tryblie has that rare feeling, curated but still alive, polished but still human.”</p>
+            <div class="quote-meta">Alex, early user</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">simple pricing</span>
+          <h2>Start free, grow your tribe your way.</h2>
+          <p>Flexible plans for individuals, creators, and communities ready to build real momentum.</p>
+        </div>
+
+        <div class="pricing">
+          <article class="pricing-card">
+            <div class="mini-label">Starter</div>
+            <div class="price">$0 <small>/ month</small></div>
+            <p style="color: var(--muted);">For discovering your people and joining the energy.</p>
+            <ul>
+              <li>personal profile</li>
+              <li>community discovery</li>
+              <li>join public circles</li>
+              <li>basic event access</li>
+            </ul>
+            <a class="btn btn-secondary" href="#cta" style="width: 100%;">Start free</a>
+          </article>
+
+          <article class="pricing-card featured">
+            <div class="mini-label">Plus</div>
+            <div class="price">$19 <small>/ month</small></div>
+            <p style="color: var(--muted);">For power users, hosts, and people creating stronger social gravity.</p>
+            <ul>
+              <li>advanced vibe filters</li>
+              <li>create private circles</li>
+              <li>host premium events</li>
+              <li>priority discovery placement</li>
+            </ul>
+            <a class="btn btn-primary" href="#cta" style="width: 100%;">Get Plus</a>
+          </article>
+
+          <article class="pricing-card">
+            <div class="mini-label">Community</div>
+            <div class="price">Custom</div>
+            <p style="color: var(--muted);">For brands, cities, and organizers building curated ecosystems.</p>
+            <ul>
+              <li>community dashboards</li>
+              <li>team roles and moderation</li>
+              <li>custom onboarding flows</li>
+              <li>launch support</li>
+            </ul>
+            <a class="btn btn-secondary" href="#cta" style="width: 100%;">Talk to us</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-heading">
+          <span class="pill">questions</span>
+          <h2>Everything you need to know before you tap in.</h2>
+        </div>
+
+        <div class="faq">
+          <article class="faq-item">
+            <h3>What is Tryblie?</h3>
+            <p>Tryblie is a social discovery and community platform built to help people find meaningful connection through shared energy, interests, and real-world experiences.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Is it for friendship, dating, or community?</h3>
+            <p>All three. The core idea is better connection. Some people come for friendship, some for romance, some for community building, and many for a mix of all of it.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Can I build my own circle or host events?</h3>
+            <p>Yes. Tryblie is built for organizers, tastemakers, creators, and everyday people who want to spark something social with real momentum.</p>
+          </article>
+          <article class="faq-item">
+            <h3>When can I join?</h3>
+            <p>Join the waitlist now to get early access, launch updates, and priority entry into the first wave of the community.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-panel" id="cta">
+          <span class="pill">early access now open</span>
+          <h2>Get in early, shape the culture.</h2>
+          <p>
+            Be part of the first wave building a more intentional social future. Join the Tryblie waitlist and get updates on launch, city drops, and exclusive community access.
+          </p>
+          <div class="hero-actions" style="justify-content: center; margin-bottom: 0;">
+            <a class="btn btn-primary" href="mailto:hello@tryblie.com?subject=Tryblie%20Waitlist">Join the waitlist</a>
+            <a class="btn btn-secondary" href="mailto:hello@tryblie.com?subject=Partner%20with%20Tryblie">Partner with Tryblie</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div class="brand">
+        <span class="brand-mark">T</span>
+        <span>tryblie</span>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:hello@tryblie.com">Contact</a>
+      </div>
+      <div>© 2026 Tryblie. Build your circle.</div>
+    </div>
+  </footer>
+</body>
+</html>
 
